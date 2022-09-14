@@ -2,51 +2,40 @@
 import {getTopMVs } from '../../service/api_video'
 Page({
   data: {
-    topMVs:[]  // mv 列表
+    topMVs:[],  // mv 列表
+    hasMore: true, // 是否能加载更多(后端会告诉)
+  },
+  async getTopMVsData(offset){
+    // 是否可以请求逻辑判断
+    // 为什么要加上 offset !== 0 ? 
+    // 因为在触底hasMore变false之后, 在去下拉刷新时刷新不了, 所以加了个额外的判断
+    if(!this.data.hasMore && offset !== 0) return 
+  
+    // 真正请求数据
+    const res = await getTopMVs(offset)
+    let newData = []
+    if(offset === 0) { // 做下判断
+      newData = res.data
+    }else {
+      newData = [...this.data.topMVs , ...res.data]
+    }
+    // 设置数据
+    this.setData({topMVs:newData})
+    this.setData({hasMore:res.hasMore})
+
+    // 关闭下拉刷新动画(默认不会自动关闭)
+    if(offset === 0) {
+      wx.stopPullDownRefresh()
+    }
   },
   async onLoad(options) {
-    const res = await getTopMVs(0)
-    this.setData({topMVs:res.data})
+    this.getTopMVsData(0)
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
+  async onPullDownRefresh() {  // 下拉刷新
+    this.getTopMVsData(0)
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
+  async onReachBottom() {    // 上拉触底
+    this.getTopMVsData(this.data.topMVs.length)
   },
 
   /**
