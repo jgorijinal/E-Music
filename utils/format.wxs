@@ -1,0 +1,23 @@
+function formatCount(count) { // 播放量转换
+  var realCount = parseInt(count) // 先转为数字
+  if(realCount > 100000000) {
+    return (realCount / 100000000).toFixed(1) + '亿'
+  }else if (realCount > 10000) {
+    return (realCount / 10000).toFixed(1) + '万'
+  }else {
+    return realCount 
+  }
+}
+function padLeftZero(time) {  // 在单位数, 最前面加 0 的算法
+  return ('00'+time).slice(time.length)
+}
+function formatDuration(duration) {
+  duration = parseInt(duration) / 1000  // 先把 毫秒 转为 秒数
+  var minute = Math.floor(duration / 60) + ''  // 分钟
+  var second = duration % 60 + ''        // 剩余的秒
+  return minute + ':' + padLeftZero(second)
+}
+module.exports = {
+  formatCount:formatCount,
+  formatDuration:formatDuration
+}
