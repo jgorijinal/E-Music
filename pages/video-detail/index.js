@@ -6,21 +6,14 @@ Page({
     mvDetail:{},      // mv 详情数据
     relatedVideos:[]  // 相关视频
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad(options) {
     const id = options.id 
-    console.log(id)
     this.getPageData(id)
   },
   getPageData(id){
     // 获取 mv 地址
     getMVURL(id).then(res =>{
       this.setData({mvURLInfo:res.data})
-    },(err)=>{
-      console.log(err)
     })
     // 获取 mv 详情数据
     getMVDetail(id).then(res => {

@@ -5,5 +5,5 @@
   justify-content: space-around;
 }
 .video-item {
-  width: 48%;
+  width: 46%;
 }
