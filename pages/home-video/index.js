@@ -37,7 +37,13 @@ Page({
   async onReachBottom() {    // 上拉触底
     this.getTopMVsData(this.data.topMVs.length)
   },
-
+  handleVideoItemClick(e){
+    const id = e.currentTarget.dataset.item.id 
+    // 然后跳转到详情页
+    wx.navigateTo({
+      url: '/pages/video-detail/index?id=' + id,
+    })
+  },
   /**
    * 用户点击右上角分享
    */

@@ -10,8 +10,8 @@
       "list": [
         {
           "name": "",
-          "pathName": "pages/home-video/index",
-          "query": "",
+          "pathName": "pages/video-detail/index",
+          "query": "id=14553401",
           "launchMode": "default",
           "scene": null
         }
